@@ -26,6 +26,14 @@
         :template="githubTemplate"
         :on-hit="githubCallback"
       ></typeahead>
+      <hr>
+      <h4>Array of objects</h4>
+      <typeahead
+        placeholder="Users"
+        :data="users"
+        :objs="true"
+        value-field="name"
+      ></typeahead>
     </div>
     <doc-code language="markup">
       &lt;h4>Static arrays&lt;/h4>
@@ -47,6 +55,14 @@
         src="https://api.github.com/search/users?q="
         :template="githubTemplate"
         :on-hit="githubCallback"
+      >&lt;/typeahead>
+
+      &lt;h4>Array of objects&lt;/h4>
+      &lt;typeahead
+      placeholder="Users"
+      :data=users
+      :objs=true
+      value-field=name
       >&lt;/typeahead>
     </doc-code>
     <doc-code language="javascript">
@@ -155,6 +171,7 @@ export default {
   data () {
     return {
       USstate: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'],
+      users: [{id: 1, name: 'John'}, {id: 2, name: 'Adam'}, {id: 3, name: 'Chris'}, {id: 4, name: 'Ben'}],
       asyncTemplate: '{{ item.formatted_address }}',
       githubTemplate: '<img width="18px" height="18px" :src="item.avatar_url"/> <span>{{item.login}}</span>'
     }

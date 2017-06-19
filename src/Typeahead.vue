@@ -13,7 +13,7 @@
     <ul class="dropdown-menu" ref="dropdown">
       <li v-for="(item, i) in items" :class="{active: isActive(i)}">
         <a @mousedown.prevent="hit" @mousemove="setActive(i)">
-          <component :is="templateComp" :item="item"></component>
+          <component :is="templateComp" :item="objs && valueField ? item[valueField] : item"></component>
         </a>
       </li>
     </ul>
@@ -40,7 +40,9 @@ export default {
     placeholder: {type: String},
     template: {type: String},
     type: {type: String, default: 'text'},
-    value: {type: String, default: ''}
+    value: {type: String, default: ''},
+    objs: {type: Boolean, default: false},
+    valueField: {type: String, default: ''},
   },
   data () {
     return {
@@ -76,6 +78,7 @@ export default {
         this.items = this.items.slice(0, this.limit)
       } else {
         this.items = (data || []).filter(value => {
+          value = !(this.objs && this.valueField) ? value : value[this.valueField];
           if (typeof value === 'object') { return true }
           value = this.matchCase ? value : value.toLowerCase()
           var query = this.matchCase ? this.val : this.val.toLowerCase()
@@ -85,8 +88,14 @@ export default {
       this.showDropdown = this.items.length > 0
     },
     setValue (value) {
-      this.asign = value
-      this.val = value
+      if(typeof value === 'object' && value !== null && this.valueField) {
+          this.asign = value[this.valueField];
+          this.val = value[this.valueField];
+      }
+      else {
+        this.asign = value
+        this.val = value
+      }
       this.items = []
       this.loading = false
       this.showDropdown = false
